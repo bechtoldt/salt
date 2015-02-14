@@ -1,3 +1,9 @@
+salt (2014.7.0-3-arbe) unstable; urgency=low
+
+  * New custom version
+
+ -- Arnold Bechtoldt <mail@arnold bechtoldt.com>  Thu, 14 Feb 2015 15:23:00 +1000
+
 salt (2014.1.0-1) unstable; urgency=low
 
   * New upstream version
