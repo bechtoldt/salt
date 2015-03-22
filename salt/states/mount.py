@@ -152,6 +152,8 @@ def mounted(name,
 
     device_list = []
     if real_name in active:
+        if 'superopts' not in active[real_name]:
+            active[real_name]['superopts'] = []
         if mount:
             device_list.append(active[real_name]['device'])
             device_list.append(os.path.realpath(device_list[0]))
@@ -173,12 +175,16 @@ def mounted(name,
                     'defaults',
                     'delay_connect',
                     'intr',
+                    'loop',
+                    'nointr',
                     'nobootwait',
                     'nofail',
                     'password',
                     'reconnect',
                     'retry',
                     'soft',
+                    'auto',
+                    'users',
                 ]
                 # options which are provided as key=value (e.g. password=Zohp5ohb)
                 mount_invisible_keys = [
@@ -201,6 +207,9 @@ def mounted(name,
                         if size_match.group('size_unit') == 'g':
                             converted_size = int(size_match.group('size_value')) * 1024 * 1024
                         opt = "size={0}k".format(converted_size)
+                    # make cifs option user synonym for option username which is reported by /proc/mounts
+                    if fstype in ['cifs'] and opt.split('=')[0] == 'user':
+                        opt = "username={0}".format(opt.split('=')[1])
 
                     if opt not in active[real_name]['opts'] and opt not in active[real_name]['superopts'] and opt not in mount_invisible_options:
                         if __opts__['test']:
